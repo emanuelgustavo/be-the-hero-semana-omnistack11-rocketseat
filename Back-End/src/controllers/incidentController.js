@@ -54,8 +54,12 @@ module.exports = {
         error: 'Operation not permitted.'
       });
     } else {
-      await connection('incidents').where('id', id).delete();
-      return response.status(204).send();
+      try {
+        await connection('incidents').where('id', id).delete();
+      } catch (error) {
+        alert('Erro ao deletar incidente. Tente Novamente.')
+      }
+        return response.status(204).send();
     }
   }
 };
