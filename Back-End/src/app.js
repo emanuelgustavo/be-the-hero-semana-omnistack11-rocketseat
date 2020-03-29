@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-
+const { errors }  = require('celebrate');
 const routes = require('./routes.js');
 
 const app = express();
@@ -10,8 +10,10 @@ app.use(cors());
 //informando que será utilizado o JSON na requisição
 app.use(express.json());
 app.use(routes);
+//retorna o erro gerado quando o parametro é barrado pelo validador em routes
+app.use(errors());
 
-app.listen(3333);
+module.exports = app;
 
 /*
     Rota e Recurso

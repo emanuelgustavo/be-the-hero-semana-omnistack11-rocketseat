@@ -1,5 +1,5 @@
 //pacote para criar criptografia do nodejs
-const crypto = require("crypto");
+const generateUniqueId = require('../utils/generateUniqueId.js');
 const connection = require("../database/connection.js");
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
   //Para acessar os parametros passado na requisição
   const { name, email, whatsapp, city, uf } = request.body;
   //cria uma id aleatoria e converte para string em caracteres hexadecimais
-  const id = crypto.randomBytes(4).toString('HEX');
+    const id = generateUniqueId();
 
     await connection('ongs').insert({
       id,
