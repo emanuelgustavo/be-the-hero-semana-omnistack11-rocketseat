@@ -7,6 +7,8 @@ import './styles.css';
 import logoimg from "../../assets/logo.svg";
 
 export default function Register() {
+
+  const registerType = localStorage.getItem('type'); 
   
   const [name, setName] = useState('');
   const [email, setEmail] = useState("");
@@ -40,32 +42,38 @@ export default function Register() {
     };
   }
 
-
   return (
     <div className="Register-content">
       <div className="content">
         <section>
           <img src={logoimg} alt="Be the Hero" />
           <h1>Cadastro</h1>
+          { registerType === 'ong' &&
           <p>
-            Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem
+            Faça seu cadastro na plataforma e ajude pessoas a encontrarem
             os casos da sua ONG.
           </p>
-
-          <Link className="back-link" to="/">
+          }
+          {registerType === 'volunteer' &&
+            <p>
+              Faça seu cadastro na plataforma e ajude ONG's a resolverem
+              casos.
+          </p>
+          }
+          <Link className="back-link" to={`/logon/${registerType}`}>
             <FiArrowLeft size={16} color="#E02041" />
-            Não tenho cadastro
+            Já tenho cadastro
           </Link>
         </section>
         <form onSubmit={handleRegister}>
           <input
-            placeholder="Nome da ONG"
+            placeholder="Nome"
             value={name}
             onChange={event => setName(event.target.value)}
           />
           <input
             type="email"
-            placeholder="E-mail da ONG"
+            placeholder="E-mail"
             value={email}
             onChange={event => setEmail(event.target.value)}
           />

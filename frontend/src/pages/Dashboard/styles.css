@@ -1,0 +1,120 @@
+.dashboard-container {
+    width: 100%;
+    max-width: 1180px;
+    padding: 0 30px;
+    margin: 32px auto;
+    color: #41414d;
+}
+
+.dashboard-container header {
+    display: flex;
+    align-items: center;
+    color: #41414d;
+}
+
+.dashboard-container header img {
+    margin-left: 20px;
+    height: 80px;
+}
+
+.dashboard-container header span {
+    margin-left: 20px;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.dashboard-button {
+    margin: 0 10px 0 auto;
+    width: 160px;
+    height: 60px;
+    background: #E02041;
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    border: 1px solid #f0f0f5;
+    border-radius: 4px;
+    padding: 20px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.dashboard-button:hover {
+    background: #dcdce6;
+    color: #E02041;
+}
+
+.dashboard-container button {
+    height: 60px;
+    width: 60px;
+    border: 1px solid #dcdce6;
+    border-radius: 4px;
+    transition: 0.5s;
+}
+
+.dashboard-container button:hover {
+    background-color: #dcdce6;
+}
+
+.dashboard-graphics {
+    width: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    margin: 40px auto;
+    padding: 10px;
+    border: 1px solid #dcdce6;
+    border-radius: 4px;
+}
+
+.graphic-box {
+    height: 318px;
+    margin: auto;
+    width: 32%;
+    border: 1px solid #dcdce6;
+    border-radius: 4px;
+    background-color: tomato;
+}
+
+.dashboard-list {
+    margin: 20px 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    list-style: none;
+}
+
+.incident {
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px;
+    line-height: 20px;
+}
+
+.incident strong {
+    font-size: 16px;
+    margin: 10px 0 10px;
+}
+
+.incident p {
+    margin: 10px 0 10px 0;
+    font-size: 15px;
+}
+
+.incident button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: #fff;
+    transition: 0.5s;
+}
+
+.incident button:hover {
+    background: #dcdce6;
+}

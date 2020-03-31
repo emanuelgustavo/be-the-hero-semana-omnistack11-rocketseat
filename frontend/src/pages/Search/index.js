@@ -6,7 +6,7 @@ import api from '../../services/api.js';
 import './styles.css';
 import logoimg from '../../assets/logo.svg';
 
-export default function Profile() {
+export default function Search() {
 
   const history = useHistory();
   const [incidents, setIncidents] = useState([]);
@@ -15,13 +15,13 @@ export default function Profile() {
   const ongName = localStorage.getItem('ongName');
 
   useEffect(() => { 
-    api.get('/profile', {
+    api.get('/search', {
       headers: {
         authorization: ongId,
       }
     }).then(response => {
       setIncidents(response.data);
-    }) 
+    }); 
   }, [ongId]);
 
   async function handleDeleteIncident(incidentId) {

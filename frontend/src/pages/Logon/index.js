@@ -22,7 +22,7 @@ export default function Logon() {
       localStorage.setItem('ongID', id);
       localStorage.setItem('ongName', response.data.name);
 
-      history.push('/profile');
+      history.push('/dashboard');
     } catch (error) {
       alert("Erro!");
     }
@@ -35,7 +35,6 @@ export default function Logon() {
         <img src={logoimg} alt="Be the Hero" />
         <form onSubmit={handleLogin}>
           <h1>Faça seu Logon</h1>
-
           <input
             placeholder="Sua ID"
             value={id}

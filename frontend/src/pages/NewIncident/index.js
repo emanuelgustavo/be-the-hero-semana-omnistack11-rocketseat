@@ -32,7 +32,7 @@ export default function NewIncident() {
         }
       });
 
-      history.push('/profile');      
+      history.push('/search');      
     } catch (error) {
       alert(`Erro! Tente novamente. 
             ${error}`);
@@ -50,7 +50,7 @@ export default function NewIncident() {
             isso.
           </p>
 
-          <Link className="back-link" to="/profile">
+          <Link className="back-link" to="/search">
             <FiArrowLeft size={16} color="#E02041" />
             Voltar para home
           </Link>

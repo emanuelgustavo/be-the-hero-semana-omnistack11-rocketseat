@@ -1,0 +1,19 @@
+.initial-container {
+    width: 100%;
+    max-width: 1120px;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.initial-section {
+    width: 100%;
+    max-width: 350px;
+    margin-right: 30px;
+}
+
+.button {
+    font-weight: 500;
+}

@@ -3,7 +3,7 @@ const { celebrate, Segments, Joi } = require('celebrate');
 
 const ongController = require('./controllers/ongController.js');
 const incidentController = require('./controllers/incidentController.js');
-const profileController = require('./controllers/profileController.js');
+const searchController = require('./controllers/searchController.js');
 const sessionsController = require('./controllers/sessionController');
 
 const routes = express.Router();
@@ -42,7 +42,7 @@ routes.post("/incidents", celebrate({
     }).unknown(),
     [Segments.BODY]: Joi.object().keys({
       title: Joi.string().required().min(5),
-      description: Joi.string().required().min(30),
+      description: Joi.string().required(),
       value: Joi.number().required().min(1)
     })
   }),
@@ -57,13 +57,13 @@ routes.delete('/incidents/:id', celebrate({
 
 //rota para listagem de todos os casos de uma ong especifica
 routes.get(
-  "/profile",
+  "/search",
   celebrate({ //validação de parametros Header
     [Segments.HEADERS]: Joi.object({
       authorization: Joi.string().required(),
     }).unknown()
   }),
-  profileController.index
+  searchController.index
 );
 
 
