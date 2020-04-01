@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FiPower, FiTrash2 } from 'react-icons/fi';
+import { FiArrowLeft, FiTrash2 } from 'react-icons/fi';
 
 import api from '../../services/api.js';
 import './styles.css';
@@ -15,13 +15,9 @@ export default function Search() {
   const ongName = localStorage.getItem('ongName');
 
   useEffect(() => { 
-    api.get('/search', {
-      headers: {
-        authorization: ongId,
-      }
-    }).then(response => {
-      setIncidents(response.data);
-    }); 
+    api.get("/search").then(response => {
+        setIncidents(response.data);
+      }); 
   }, [ongId]);
 
   async function handleDeleteIncident(incidentId) {
@@ -40,7 +36,7 @@ export default function Search() {
 
   function handleLogout() {
     localStorage.clear();
-    history.push('/');
+    history.push('/dashboard');
   }
 
   return (
@@ -49,41 +45,32 @@ export default function Search() {
         <header>
           <img src={logoimg} alt="Be the Hero" />
           <span>Bem vinda, {ongName}</span>
-
-          <Link className="button" to="/incidents/new">
-            Cadastrar novo caso
-          </Link>
-          <button
-            type="button"
-            onClick={handleLogout}
-            >
-            <FiPower size={18} color="#E02041" />
+          <button type="button" onClick={handleLogout}>
+            <FiArrowLeft size={18} color="#E02041" />
           </button>
         </header>
-        <h1>Casos Cadastrados</h1>
+        <h1>Casos encontrados</h1>
         <ul>
           {incidents.map(incident => {
             return (
               <li key={incident.id}>
                 <strong>CASO:</strong>
                 <p>{incident.title}</p>
+                
+                <strong>ONG:</strong>
+                <p>APAD</p>
 
                 <strong>DESCRIÇÃO:</strong>
                 <p>{incident.description}</p>
 
                 <strong>VALOR:</strong>
-                <p>{
-                  Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL'
-                  }).format( incident.value )
-                }</p>
-
-                <button
-                  onClick={() => handleDeleteIncident(incident.id)}
-                  type="button">
-                  <FiTrash2 size={20} color="#a8a8b3" />
-                </button>
+                <p>
+                  {Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                  }).format(incident.value)}
+                </p>
+                <button>Quero ajudar</button>
               </li>
             );
           })}

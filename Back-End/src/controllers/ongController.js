@@ -14,17 +14,18 @@ module.exports = {
   //Para acessar os parametros passado na requisição
   const { name, email, whatsapp, city, uf } = request.body;
   //cria uma id aleatoria e converte para string em caracteres hexadecimais
-    const id = generateUniqueId();
+  const ongId = generateUniqueId();
 
-    await connection('ongs').insert({
-      id,
+  await connection('ongs')
+    .insert({
+      id: ongId,
       name,
       email,
       whatsapp,
       city,
       uf
     });
-    return response.json({ id });
+  return response.json({ ongId });
   }
 
 };

@@ -57,24 +57,74 @@
     background-color: #dcdce6;
 }
 
+.dashboard-status {
+    margin-top: 20px;
+}
+
 .dashboard-graphics {
     width: 100%;
-    background: #fff;
+    background: #f0f0f5;
     display: flex;
     justify-content: space-between;
-    margin: 40px auto;
-    padding: 10px;
-    border: 1px solid #dcdce6;
+    margin: 20px auto;
+    border: 1px solid #f0f0f5;
     border-radius: 4px;
 }
 
+.dashboard-total {
+    margin-left: 5px;
+    width: 140px;
+    height: 65px;
+    padding: 5px;
+    font-size: 15px;
+    text-align: center;
+    background: #fff;
+}
+
+.dashboard-total strong {
+    margin: 5px;
+    font-size: 16px;
+}
+
+.dashboard-total p {
+    margin: 5px 0 0 0;
+    font-size: 16px;
+}
+
 .graphic-box {
-    height: 318px;
+    position: relative;
+    height: 250px;
     margin: auto;
     width: 32%;
+    min-width: 250px;
     border: 1px solid #dcdce6;
     border-radius: 4px;
-    background-color: tomato;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.graphic-box span {
+    position: absolute;
+    left: 30px;
+    top: 5px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 10px;
+}
+
+.graphic-box span+p {
+    position: absolute;
+    top: 5px;
+    right: 40px;
+    margin: 0 0 10px auto;
+    font-size: 15px;
+}
+
+.recharts-surface {
+    position: absolute;
+    top: 10px;
 }
 
 .dashboard-list {

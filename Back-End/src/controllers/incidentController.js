@@ -27,14 +27,18 @@ module.exports = {
   },
   //Cadastra um incident no banco de dados
   async create(request, response) {
-    const { title, description, value } = request.body;
+    const { title, description, value, deadline, status } = request.body;
     const ong_id = request.headers.authorization;
+    const create_at = Date.now();
 
     const [id] = await connection("incidents").insert({
       title,
       description,
       value,
-      ong_id
+      ong_id,
+      create_at,
+      deadline,
+      status
     });
 
     return response.json({ id });

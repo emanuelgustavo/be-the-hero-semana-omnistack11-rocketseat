@@ -11,5 +11,5 @@ exports.up = function (knex) {
 };
 //.down voltar antes da criação da tabela
 exports.down = function(knex) {
-  return knex.schema.dropTable('ongs');
+  return knex.schema.dropTable("ongs");
 };
