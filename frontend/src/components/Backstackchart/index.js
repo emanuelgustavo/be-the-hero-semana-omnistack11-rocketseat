@@ -27,7 +27,6 @@ export default function Barstackchart() {
               backgroundColor: sectorColor[index]
             }}
           >
-            {value}
           </div>
         )
       })

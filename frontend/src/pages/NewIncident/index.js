@@ -50,9 +50,9 @@ export default function NewIncident() {
             isso.
           </p>
 
-          <Link className="back-link" to="/search">
+          <Link className="back-link" to="/dashboard/ong">
             <FiArrowLeft size={16} color="#E02041" />
-            Voltar para home
+            Voltar para dashboard
           </Link>
         </section>
         <form onSubmit={handleNewIncident}>

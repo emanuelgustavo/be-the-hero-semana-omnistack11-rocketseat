@@ -29,9 +29,9 @@ module.exports = {
     //insere os dados no banco
     const [id] = await connection("incident_history").insert({
       incident_id,
-      volunteer_id,
+      volunteer_id: "9b3289cc",
       received_value,
-      completeValue
+      completeValue: true
     });
 
     //soma o total doado para cada incident

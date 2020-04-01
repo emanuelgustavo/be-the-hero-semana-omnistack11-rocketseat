@@ -12,6 +12,7 @@ export default function Dashboard() {
   const history = useHistory();
 
   const dashboardType = localStorage.getItem('type');
+  const dashboardName = localStorage.getItem('name');
 
   function handleLogout(){
     localStorage.clear();
@@ -22,13 +23,18 @@ export default function Dashboard() {
     <div className="dashboard-container">
       <header>
         <img src={logoImg} />
-        <span>Bem vindo, {dashboardType}</span>
-        <Link className="dashboard-button" to="/register">
+        <span>Bem vindo, {dashboardName}</span>
+        <Link
+          className="dashboard-button"
+          to={
+            dashboardType === "volunteer"
+              ? "/volunteer/search"
+              : "/incidents/new"
+          }
+        >
           <p>{dashboardType === "volunteer" ? "Buscar casos" : "Novo caso"}</p>
         </Link>
-        <button
-          onClick={ () => handleLogout()}
-        >
+        <button onClick={() => handleLogout()}>
           <FiPower size={18} color="#E02041" />
         </button>
       </header>

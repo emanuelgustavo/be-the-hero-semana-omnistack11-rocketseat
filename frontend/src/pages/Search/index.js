@@ -11,9 +11,9 @@ export default function Search() {
   const history = useHistory();
   const [incidents, setIncidents] = useState([]);
   const [totalIncidents, setTotalIncidents] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
 
   const volunteerName = localStorage.getItem('volunteerName');
+  const volunteer_id = localStorage.getItem('volunteerId');
 
   useEffect(() => { 
     api.get("/search").then(response => {
@@ -22,20 +22,25 @@ export default function Search() {
     });
   }, []);
 
-  function toggle(index) {
-    incidents[index].isOpen = !isOpen;
-    setIsOpen(!isOpen);    
-  };
+  function handleWantHelp(incidentId, incidentsIndex) {
+    api.post("/incidents/history", {
+      incident_id: incidentId,
+      volunteer_id,
+      received_value: incidents[incidentsIndex].value
+    });
+    handleBackButton();
+  }
 
   function handleBackButton() {
-    localStorage.clear();
     history.push('/dashboard');
   }
 
   function handleDeadline(incidentDeadline) {
+
     const nowTime = Date.now();
     const deadline = incidentDeadline - nowTime;
     const deadlineDays = Math.floor((deadline / (24 * 60 * 60 * 1000)));
+    
     let text = `${deadlineDays}`;
 
     if (deadlineDays === 1) {
@@ -44,8 +49,7 @@ export default function Search() {
       text += ` dias`;
     }
 
-    return text;  
-
+    return text;
   }
 
   return (
@@ -99,21 +103,9 @@ export default function Search() {
                   </p>
                 </div>
                 <div>
-                  { !isOpen &&
-                    <button onClick={() => toggle(index)}>
-                      Quero ajudar
-                    </button>
-                  }
-                  { isOpen && (
-                    <form>
-                      <input
-                        name="want-help"
-                        placeholder="Quero ajudar com R$"
-                        type="text"
-                      />
-                      <button>Ajudar</button>
-                    </form>
-                  )}
+                  <button value={incident.id} onClick={event => handleWantHelp(event.target.value, index)}>
+                    Quero ajudar
+                  </button>
                 </div>
               </li>
             );
