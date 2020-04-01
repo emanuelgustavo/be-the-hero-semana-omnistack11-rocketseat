@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { FiArrowLeft, FiTrash2 } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
 
 import api from '../../services/api.js';
 import './styles.css';
@@ -10,33 +10,42 @@ export default function Search() {
 
   const history = useHistory();
   const [incidents, setIncidents] = useState([]);
+  const [totalIncidents, setTotalIncidents] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const ongId = localStorage.getItem('ongID');
-  const ongName = localStorage.getItem('ongName');
+  const volunteerName = localStorage.getItem('volunteerName');
 
   useEffect(() => { 
     api.get("/search").then(response => {
-        setIncidents(response.data);
-      }); 
-  }, [ongId]);
+      setIncidents(response.data);
+      setTotalIncidents(response.data.length);
+    });
+  }, []);
 
-  async function handleDeleteIncident(incidentId) {
-    try {
-      await api.delete(`incidents/${incidentId}`, {
-        headers: {
-          authorization: ongId
-        }
-      });
-
-      setIncidents(incidents.filter( incident => incident.id !== incidentId));
-    } catch (error) {
-      alert('Erro ao deletar caso, tente novamente.');
-    }
+  function toggle(index) {
+    incidents[index].isOpen = !isOpen;
+    setIsOpen(!isOpen);    
   };
 
-  function handleLogout() {
+  function handleBackButton() {
     localStorage.clear();
     history.push('/dashboard');
+  }
+
+  function handleDeadline(incidentDeadline) {
+    const nowTime = Date.now();
+    const deadline = incidentDeadline - nowTime;
+    const deadlineDays = Math.floor((deadline / (24 * 60 * 60 * 1000)));
+    let text = `${deadlineDays}`;
+
+    if (deadlineDays === 1) {
+      text += ` dia`;
+    } else {
+      text += ` dias`;
+    }
+
+    return text;  
+
   }
 
   return (
@@ -44,33 +53,68 @@ export default function Search() {
       <div className="Profile-container">
         <header>
           <img src={logoimg} alt="Be the Hero" />
-          <span>Bem vinda, {ongName}</span>
-          <button type="button" onClick={handleLogout}>
+          <span>Bem vinda, {volunteerName}</span>
+          <button type="button" onClick={handleBackButton}>
             <FiArrowLeft size={18} color="#E02041" />
           </button>
         </header>
-        <h1>Casos encontrados</h1>
+        <h1>Total de {totalIncidents} casos abertos encontrados</h1>
         <ul>
-          {incidents.map(incident => {
+          {incidents.map((incident, index) => {
             return (
-              <li key={incident.id}>
-                <strong>CASO:</strong>
-                <p>{incident.title}</p>
-                
-                <strong>ONG:</strong>
-                <p>APAD</p>
-
-                <strong>DESCRIÇÃO:</strong>
-                <p>{incident.description}</p>
-
-                <strong>VALOR:</strong>
-                <p>
-                  {Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
-                  }).format(incident.value)}
-                </p>
-                <button>Quero ajudar</button>
+              <li key={incident.id} className="list-item">
+                <div className="case-incident">
+                  <div>
+                    <strong>CASO:</strong>
+                    <p>{incident.title}</p>
+                  </div>
+                  <div>
+                    <strong>STATUS:</strong>
+                    <p>{incident.status}</p>
+                  </div>
+                </div>
+                <div className="ong-date">
+                  <div>
+                    <strong>ONG:</strong>
+                    <p>
+                      {incident.name} de {incident.city}/{incident.uf}
+                    </p>
+                  </div>
+                  <div>
+                    <strong>EXPIRA EM:</strong>
+                    <p>{handleDeadline(incident.deadline)}</p>
+                  </div>
+                </div>
+                <div className="description">
+                  <strong>DESCRIÇÃO:</strong>
+                  <p>{incident.description}</p>
+                </div>
+                <div className="value">
+                  <strong>VALOR:</strong>
+                  <p>
+                    {Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL"
+                    }).format(incident.value)}
+                  </p>
+                </div>
+                <div>
+                  { !isOpen &&
+                    <button onClick={() => toggle(index)}>
+                      Quero ajudar
+                    </button>
+                  }
+                  { isOpen && (
+                    <form>
+                      <input
+                        name="want-help"
+                        placeholder="Quero ajudar com R$"
+                        type="text"
+                      />
+                      <button>Ajudar</button>
+                    </form>
+                  )}
+                </div>
               </li>
             );
           })}

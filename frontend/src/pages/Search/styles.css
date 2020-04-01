@@ -42,6 +42,32 @@
     position: relative;
 }
 
+.Profile-container ul li .case-incident {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Profile-container ul li .ong-date {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.Profile-container ul li .description {
+    margin-top: 20px;
+}
+
+.Profile-container ul li .value {
+    margin-top: 20px;
+}
+
+.Profile-container ul li .want-help input {
+    border: 1px solid #737380;
+    border-radius: 4px;
+    margin-top: 20px;
+    line-height: 16px;
+}
+
 .Profile-container ul li button {
     position: absolute;
     right: 24px;
