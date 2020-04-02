@@ -73,7 +73,7 @@ routes.get('/incidents/history', incidentsHistoryController.index);
 //rota para criar historico dos incidents
 routes.post('/incidents/history', incidentsHistoryController.create);
 
-//rota para o preenchimento da dashboar
+//rota para o preenchimento da dashboard
 routes.get('/dashboard', dashboardController.index);
 
 

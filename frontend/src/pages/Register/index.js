@@ -4,17 +4,17 @@ import { FiArrowLeft } from 'react-icons/fi';
 
 import api from '../../services/api.js';
 import './styles.css';
-import logoimg from "../../assets/logo.svg";
+import logoimg from '../../assets/logo.svg';
 
 export default function Register() {
 
   const registerType = localStorage.getItem('type'); 
   
   const [name, setName] = useState('');
-  const [email, setEmail] = useState("");
-  const [whatsapp, setWhatsapp] = useState("");
-  const [city, setCity] = useState("");
-  const [uf, setUf] = useState("");
+  const [email, setEmail] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
+  const [city, setCity] = useState('');
+  const [uf, setUf] = useState('');
 
   const history = useHistory();
 
@@ -29,12 +29,15 @@ export default function Register() {
       uf
     };
 
-    try{
-      const response = await api.post('ongs', data);
+    try {
+      
+      const registerRoute = registerType === 'ong' ? 'ongs' : 'volunteer';
+
+      const response = await api.post(registerRoute, data);
 
       alert(`Seu ID de acesso: ${response.data.id}`);
 
-      history.push('/');
+      history.push(`/logon/${registerType}`);
       
     } catch (error) {
       alert(`Erro! Tente novamente. 
@@ -43,10 +46,10 @@ export default function Register() {
   }
 
   return (
-    <div className="Register-content">
-      <div className="content">
+    <div className='Register-content'>
+      <div className='content'>
         <section>
-          <img src={logoimg} alt="Be the Hero" />
+          <img src={logoimg} alt='Be the Hero' />
           <h1>Cadastro</h1>
           { registerType === 'ong' &&
           <p>
@@ -60,42 +63,42 @@ export default function Register() {
               casos.
           </p>
           }
-          <Link className="back-link" to={`/logon/${registerType}`}>
-            <FiArrowLeft size={16} color="#E02041" />
+          <Link className='back-link' to={`/logon/${registerType}`}>
+            <FiArrowLeft size={16} color='#E02041' />
             Já tenho cadastro
           </Link>
         </section>
         <form onSubmit={handleRegister}>
           <input
-            placeholder="Nome"
+            placeholder='Nome'
             value={name}
             onChange={event => setName(event.target.value)}
           />
           <input
-            type="email"
-            placeholder="E-mail"
+            type='email'
+            placeholder='E-mail'
             value={email}
             onChange={event => setEmail(event.target.value)}
           />
           <input
-            placeholder="Número de What's app"
+            placeholder="Número de What\'s app"
             value={whatsapp}
             onChange={event => setWhatsapp(event.target.value)}
           />
-          <div className="input-group">
+          <div className='input-group'>
             <input
-              placeholder="Cidade"
+              placeholder='Cidade'
               value={city}
               onChange={event => setCity(event.target.value)}
             />
             <input
-              placeholder="UF"
+              placeholder='UF'
               style={{ width: 80 }}
               value={uf}
               onChange={event => setUf(event.target.value)}
             />
           </div>
-          <button type="submit" className="button">
+          <button type='submit' className='button'>
             Cadastrar
           </button>
         </form>

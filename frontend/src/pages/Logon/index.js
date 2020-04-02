@@ -10,6 +10,8 @@ import logoimg from '../../assets/logo.svg';
 
 export default function Logon() {
 
+  const logonType = localStorage.getItem('type');
+
   const [id, setID] = useState('');
   const history = useHistory();
 
@@ -17,12 +19,16 @@ export default function Logon() {
     event.preventDefault();
 
     try {
-      const response = await api.post('sessions', { id });
+            
+      const response = await api.post('sessions', {
+        id,
+        type: logonType
+      });
 
-      localStorage.setItem('ongID', id);
-      localStorage.setItem('ongName', response.data.name);
+      localStorage.setItem('id', id);
+      localStorage.setItem('name', response.data.name);
 
-      history.push('/dashboard');
+      history.push(`/dashboard/${logonType}`);
     } catch (error) {
       alert("Erro!");
     }

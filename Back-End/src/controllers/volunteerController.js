@@ -24,6 +24,6 @@ module.exports = {
         uf
       });
     
-    return response.json({ volunteerId });
+    return response.json({ id: volunteerId });
   }
 };

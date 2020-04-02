@@ -127,44 +127,89 @@
     top: 10px;
 }
 
-.dashboard-list {
-    margin: 32px 0;
-    width: 100%;
+.dashboard-container ul {
+    margin-top: 32px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    grid-gap: 24px;
     list-style: none;
 }
 
-.incident {
+.dashboard-container ul li {
+    background: #FFF;
+    padding: 24px;
+    border-radius: 8px;
     position: relative;
-    width: 100%;
-    background-color: #fff;
-    padding: 10px;
-    line-height: 20px;
 }
 
-.incident strong {
-    font-size: 16px;
-    margin: 10px 0 10px;
+.dashboard-container ul li .case-incident {
+    display: flex;
+    justify-content: space-between;
 }
 
-.incident p {
-    margin: 10px 0 10px 0;
-    font-size: 15px;
+.dashboard-container ul li .ong-date {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
-.incident button {
-    width: 40px;
-    height: 40px;
-    border: none;
+.dashboard-container ul li .description {
+    margin-top: 20px;
+}
+
+.dashboard-container ul li .value {
+    margin-top: 20px;
+}
+
+.dashboard-container ul li .want-help input {
+    border: 1px solid #737380;
+    border-radius: 4px;
+    margin-top: 20px;
+    line-height: 16px;
+}
+
+.dashboard-container ul li button {
     position: absolute;
-    right: 10px;
-    top: 10px;
-    background: #fff;
-    transition: 0.5s;
+    right: 24px;
+    bottom: 24px;
+    border: 0;
+    height: 60px;
+    width: 120px;
+    background: #E02041;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    border: 1px solid #E02041;
+    border-radius: 6px;
 }
 
-.incident button:hover {
-    background: #dcdce6;
+.dashboard-container ul li button:hover {
+    opacity: 0.8;
+}
+
+.dashboard-container ul li strong {
+    display: block;
+    margin-bottom: 16px;
+    color: #41414d;
+}
+
+.dashboard-container ul li p+strong {
+    margin-top: 32px;
+}
+
+.dashboard-container ul li p {
+    color: #737380;
+    line-height: 21px;
+    font-size: 16px;
+}
+
+.dashboard-container ul li .delete-incident {
+    background: #fff;
+    border: none;
+    width: 30px;
+    transition: 0.2;
+}
+
+.dashboard-container ul li .delete-incident:hover {
+    opacity: 0.5;
 }

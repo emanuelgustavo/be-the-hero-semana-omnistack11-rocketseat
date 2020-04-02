@@ -29,7 +29,7 @@ module.exports = {
     //insere os dados no banco
     const [id] = await connection("incident_history").insert({
       incident_id,
-      volunteer_id: "9b3289cc",
+      volunteer_id,
       received_value,
       completeValue: true
     });

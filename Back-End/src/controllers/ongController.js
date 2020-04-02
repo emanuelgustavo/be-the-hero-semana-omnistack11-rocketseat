@@ -25,7 +25,7 @@ module.exports = {
       city,
       uf
     });
-  return response.json({ ongId });
+  return response.json({ id: ongId });
   }
 
 };

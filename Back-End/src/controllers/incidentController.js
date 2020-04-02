@@ -43,10 +43,24 @@ module.exports = {
 
     return response.json({ id });
   },
+
   //deleta um incident recebendo a id no params
   async delete(request, response) {
     const { id } = request.params;
     const ong_id = request.headers.authorization;
+    
+    //busca no banco de historico de incidents se o incidente ja recebeu uma doação
+    const helpedIncident = await connection('incident_history')
+      .where('incident_id', id)
+      .first();
+    
+    //Se o incident tem registro no historico de incidentes, já recebeu doação
+    //então não pode ser excluido
+    if (helpedIncident) {
+      return response.status(401).json({
+        erro: 'Este caso já recebeu uma doação. Impossível excluir.'
+      });
+    }
 
     const incident = await connection('incidents')
       .where('id', id)
@@ -61,7 +75,7 @@ module.exports = {
       try {
         await connection('incidents').where('id', id).delete();
       } catch (error) {
-        alert('Erro ao deletar incidente. Tente Novamente.')
+        alert('Erro ao deletar incidente. Tente Novamente.');
       }
         return response.status(204).send();
     }

@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import api from '../../services/api.js';
+import handleDeadline from '../../utils/handleDeadline.js';
+
 import './styles.css';
 import logoimg from '../../assets/logo.svg';
 
@@ -12,8 +14,8 @@ export default function Search() {
   const [incidents, setIncidents] = useState([]);
   const [totalIncidents, setTotalIncidents] = useState(0);
 
-  const volunteerName = localStorage.getItem('volunteerName');
-  const volunteer_id = localStorage.getItem('volunteerId');
+  const volunteerName = localStorage.getItem('name');
+  const volunteer_id = localStorage.getItem('id');
 
   useEffect(() => { 
     api.get("/search").then(response => {
@@ -33,23 +35,6 @@ export default function Search() {
 
   function handleBackButton() {
     history.push('/dashboard');
-  }
-
-  function handleDeadline(incidentDeadline) {
-
-    const nowTime = Date.now();
-    const deadline = incidentDeadline - nowTime;
-    const deadlineDays = Math.floor((deadline / (24 * 60 * 60 * 1000)));
-    
-    let text = `${deadlineDays}`;
-
-    if (deadlineDays === 1) {
-      text += ` dia`;
-    } else {
-      text += ` dias`;
-    }
-
-    return text;
   }
 
   return (
