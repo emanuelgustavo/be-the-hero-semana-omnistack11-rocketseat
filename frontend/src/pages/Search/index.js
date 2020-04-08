@@ -71,7 +71,7 @@ export default function Search() {
                   </div>
                   <div>
                     <strong>EXPIRA EM:</strong>
-                    <p>{handleDeadline(incident.deadline)}</p>
+                    <p>{handleDeadline( incident.deadline, incident.id )}</p>
                   </div>
                 </div>
                 <div className="description">
@@ -88,7 +88,9 @@ export default function Search() {
                   </p>
                 </div>
                 <div>
-                  <button value={incident.id} onClick={event => handleWantHelp(event.target.value, index)}>
+                  <button
+                    value={incident.id}
+                    onClick={event => handleWantHelp(event.target.value, index)}>
                     Quero ajudar
                   </button>
                 </div>

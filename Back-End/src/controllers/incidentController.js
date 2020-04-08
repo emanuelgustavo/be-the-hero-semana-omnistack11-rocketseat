@@ -79,5 +79,22 @@ module.exports = {
       }
         return response.status(204).send();
     }
+  },
+
+  //responsável por atualizar o status do incident quando o deadline expira
+  async handleDeadline(request, response) {
+    
+    const { incidentId } = request.body;
+
+    console.log(request.body);
+
+    await connection('incidents')
+      .where('id', incidentId)
+      .update({
+        status: 'Não Resolvido'
+      });
+    
+    return response.status(200).send();
   }
+
 };

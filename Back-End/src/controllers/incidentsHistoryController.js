@@ -47,6 +47,13 @@ module.exports = {
           completeValue: true
         });
     }
+
+    //atualiza o status do incident para Resolvido
+    await connection('incidents')
+      .where('id', incident_id)
+      .update({
+        status: 'Resolvido'
+      });
     
     return response.json({ id });
   }

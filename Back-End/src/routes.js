@@ -76,5 +76,8 @@ routes.post('/incidents/history', incidentsHistoryController.create);
 //rota para o preenchimento da dashboard
 routes.get('/dashboard', dashboardController.index);
 
+//rota para atualizar o status quando o deadline foi expirado
+routes.post('/incidents/expired', incidentController.handleDeadline);
+
 
 module.exports = routes;

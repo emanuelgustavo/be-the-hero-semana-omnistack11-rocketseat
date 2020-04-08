@@ -23,7 +23,8 @@ module.exports = {
         const volunteerIncidents = await connection("incidents")         
           .join('incident_history', function () {
             this.on("incidents.id", "=", "incident_history.incident_id")
-              .onIn('volunteer_id', [id]);
+              .onIn('volunteer_id', [id])
+              .onIn('status', ['resolvido', 'Resolvido']);
           })
           .select([
             'incident_history.*',
