@@ -5,9 +5,40 @@
 
 const connection = require('../database/connection.js');
 
+//recebe o id de um incident com deadline expirado e atualiza o status
+const updateDeadlineExpiredDeadline = async (incidentId) => {
+
+  await connection('incidents')
+    .where('id', incidentId)
+    .update({
+      status: 'Não Resolvido'
+    });
+  
+};
+
 module.exports = {
   
   async index(request, response) {
+
+    /**
+     * verifica se o prazo de deadline não está expirado
+     * se sim, altera o status para não resolvido para não
+     * exibir na busca
+     */
+    const nowTime = Date.now();
+
+    const incidentsDeadline = await connection('incidents')
+      .where('deadline', '<', nowTime)
+      .select([
+        'id',
+        'deadline'
+      ]);
+    
+    incidentsDeadline.forEach(incident => {
+
+      updateDeadlineExpiredDeadline(incident.id);
+
+    });
 
     //conta a quantidade de registro no banco de dados
     const [count] = await connection('incidents').count();

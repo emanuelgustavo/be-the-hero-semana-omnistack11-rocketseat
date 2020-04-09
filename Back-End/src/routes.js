@@ -73,8 +73,11 @@ routes.get('/incidents/history', incidentsHistoryController.index);
 //rota para criar historico dos incidents
 routes.post('/incidents/history', incidentsHistoryController.create);
 
-//rota para o preenchimento da dashboard
-routes.get('/dashboard', dashboardController.index);
+//rota para o preenchimento da lista de casos da dashboard
+routes.get('/dashboard/incidents', dashboardController.index);
+
+//rota para o preenchimento do gráfico da dashboard
+routes.get('/dashboard/status', dashboardController.getStatus);
 
 //rota para atualizar o status quando o deadline foi expirado
 routes.post('/incidents/expired', incidentController.handleDeadline);

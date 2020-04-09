@@ -4,7 +4,7 @@ module.exports = {
 
   async index(request, response) {
 
-    //recebe as ionformações passadas pelo header da requisição
+    //recebe as informações passadas pelo header da requisição
     const { dashboardtype, id } = request.headers;
 
     const [count] = await connection('incidents').count();
@@ -49,5 +49,87 @@ module.exports = {
       
       default:
     }
+  },
+
+  async getStatus(request, response) {
+    
+    //recebe as informações passadas na requisição
+    const { dashboardtype, id } = request.headers;
+
+    const incidentsStatus = {
+      count: 0,
+      solved: 0,
+      open: 0,
+      notSolved: 0,
+      totalReceived: 0
+    };
+
+    switch (dashboardtype) {
+      
+      case 'ong':
+        //conta total de casos da ong
+        const totalOngIncidents = await connection('incidents')
+          .where('ong_id', id)
+          .select([
+            'incidents.id',
+            'incidents.status',
+            'incidents.value'
+          ]);
+        
+        incidentsStatus.count = totalOngIncidents.length;
+        
+        totalOngIncidents.forEach(incident => {
+
+          incidentsStatus.totalReceived += incident.value;
+          switch ( incident.status ) {
+            
+            case 'Aberto':
+              incidentsStatus.open++;
+              break;
+            
+            case 'aberto':
+              incidentsStatus.open++;
+              break;
+            
+            case 'Resolvido':
+              incidentsStatus.solved++;
+              break;
+            
+            default:
+              incidentsStatus.notSolved++;
+              break;
+          }          
+        });
+
+        break;
+      
+      case 'volunteer':        
+        //conta total de casos do voluntário
+        const totalVolunteerIncidents = await connection('incident_history')
+          .where('volunteer_id', id)
+          .select([
+            'incident_history.incident_id',
+            'incident_history.received_value'
+          ]);
+        
+        console.table(totalVolunteerIncidents);
+        
+        incidentsStatus.count = totalVolunteerIncidents.length;
+        
+        totalVolunteerIncidents.forEach(incident => {
+          incidentsStatus.solved++;
+          incidentsStatus.totalReceived += incident.received_value;
+        });
+        break;
+      
+      default:
+        break;
+
+    };
+
+    console.table(incidentsStatus);
+    return response.json(incidentsStatus);
+
   }
+
 };

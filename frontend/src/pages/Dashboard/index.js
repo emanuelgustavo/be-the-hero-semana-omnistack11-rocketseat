@@ -15,13 +15,15 @@ export default function Dashboard() {
   const history = useHistory();
   //carrega todos os incidents
   const [incidents, setIncidents] = useState([]);
+  //carrega dados para status da dashboard
+  const [dashboardStatus, setDashboardStatus] = useState({});
   //recupera os dados armazenados no storage
   const dashboardType = localStorage.getItem('type');
   const dashboardName = localStorage.getItem('name');
   const id = localStorage.getItem('id');
 
-  useEffect(() => {
-    api.get('/dashboard', {
+  useEffect(() => { 
+    api.get('/dashboard/incidents', {
       headers: {
         dashboardType,
         id
@@ -29,12 +31,22 @@ export default function Dashboard() {
     }).then(response => {
       setIncidents(response.data);
     });
-   }, [history]);
+    api.get('/dashboard/status', {
+      headers: {
+        dashboardType,
+        id
+      }
+    }).then(response => {
+      setDashboardStatus(response.data);
+    });
+   }, [incidents]);
 
   function handleLogout(){
     localStorage.clear();
     history.push('/');
   };
+
+  console.log(dashboardStatus);
 
   async function handleDeleteIncident(incidentId) {
 
@@ -71,12 +83,16 @@ export default function Dashboard() {
       </header>
       <h1 className="dashboard-status">Casos por status</h1>
       <div className="dashboard-graphics">
-        <Barstackchart />
+        <Barstackchart data={dashboardStatus}/>
         <div className="dashboard-total">
           <strong>
             {dashboardType === "volunteer" ? "Total doado" : "Total arrecadado"}
           </strong>
-          <p>R$ 1.500,00</p>
+          <p>{Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+          }).format(dashboardStatus.totalReceived)}
+          </p>
         </div>
       </div>
       <h1 className="dashboard-incidents">
@@ -106,10 +122,12 @@ export default function Dashboard() {
                 
                   </div>
                 }
-                <div>
-                  <strong>EXPIRA EM:</strong>
-                  <p>{handleDeadline(incident.deadline)}</p>
-                </div>
+                {dashboardType === 'ong' && incident.status !== "Resolvido" &&
+                  <div>
+                    <strong>EXPIRA EM:</strong>
+                    <p>{handleDeadline(incident.deadline)}</p>
+                  </div>
+                }
               </div>
               <div className="description">
                 <strong>DESCRIÇÃO:</strong>
@@ -124,7 +142,7 @@ export default function Dashboard() {
                   }).format(incident.value)}
                 </p>
               </div>
-              {dashboardType === 'ong' &&
+              {dashboardType === 'ong' && incident.status !== "Resolvido" &&
                 <button 
                   className="delete-incident"
                   onClick={ () => handleDeleteIncident(incident.id)}

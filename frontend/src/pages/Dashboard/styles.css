@@ -62,23 +62,25 @@
 }
 
 .dashboard-graphics {
+    height: 80px;
     width: 100%;
     background: #f0f0f5;
     display: flex;
     justify-content: space-between;
     margin: 32px auto;
     border: 1px solid #f0f0f5;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
 .dashboard-total {
     margin-left: 5px;
     width: 160px;
-    height: 65px;
+    height: 100%;
     padding: 10px;
     font-size: 15px;
     text-align: center;
     background: #fff;
+    border-radius: 6px;
 }
 
 .dashboard-total strong {

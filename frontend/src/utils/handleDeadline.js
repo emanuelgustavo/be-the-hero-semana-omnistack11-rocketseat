@@ -1,14 +1,9 @@
-import api from '../services/api.js';
 
-export default function handleDeadline(incidentDeadline, incidentId) {
+export default function handleDeadline(incidentDeadline) {
 
-  const nowTime = Date.now();  
+  const nowTime = Date.now();
 
-  if (nowTime > incidentDeadline) {
-    api.post('/incidents/expired', {
-      incidentId
-    });
-  }
+  if (nowTime > incidentDeadline) return 'Expirado'; 
 
   const deadline = incidentDeadline - nowTime;
   const deadlineDays = Math.floor((deadline / (24 * 60 * 60 * 1000)));
