@@ -1,8 +1,35 @@
 const connection = require('../database/connection.js');
 
+async function handleExpiredDeadline(incidendId) {
+
+  await connection('incidents')
+    .where('id', incidendId)
+    .update({
+      status: 'Não Resolvido'
+    });
+  
+}
+
 module.exports = {
 
   async index(request, response) {
+
+    /**
+     * Primeiro verifica o deadline de cada incident
+     * Se estiver expirado e o incident muda o status para
+     * não resolvido
+     */
+    const allIncidents = await connection('incidents');
+
+    allIncidents.forEach( incident => {
+      
+      if (incident.deadline < Date.now()) {
+        
+        handleExpiredDeadline(incident.id);
+
+      }
+
+    });
 
     //recebe as informações passadas pelo header da requisição
     const { dashboardtype, id } = request.headers;
@@ -68,7 +95,7 @@ module.exports = {
       
       case 'ong':
         //conta total de casos da ong
-        const totalOngIncidents = await connection('incidents')
+        const allOngIncidents = await connection('incidents')
           .where('ong_id', id)
           .select([
             'incidents.id',
@@ -76,12 +103,11 @@ module.exports = {
             'incidents.value'
           ]);
         
-        incidentsStatus.count = totalOngIncidents.length;
+        incidentsStatus.count = allOngIncidents.length;
         
-        totalOngIncidents.forEach(incident => {
-
-          incidentsStatus.totalReceived += incident.value;
-          switch ( incident.status ) {
+        allOngIncidents.forEach(incident => {
+          
+          switch (incident.status) {    
             
             case 'Aberto':
               incidentsStatus.open++;
@@ -93,6 +119,7 @@ module.exports = {
             
             case 'Resolvido':
               incidentsStatus.solved++;
+              incidentsStatus.totalReceived += incident.value;
               break;
             
             default:
@@ -105,18 +132,16 @@ module.exports = {
       
       case 'volunteer':        
         //conta total de casos do voluntário
-        const totalVolunteerIncidents = await connection('incident_history')
+        const allVolunteerIncidents = await connection('incident_history')
           .where('volunteer_id', id)
           .select([
             'incident_history.incident_id',
             'incident_history.received_value'
           ]);
         
-        console.table(totalVolunteerIncidents);
+        incidentsStatus.count = allVolunteerIncidents.length;
         
-        incidentsStatus.count = totalVolunteerIncidents.length;
-        
-        totalVolunteerIncidents.forEach(incident => {
+        allVolunteerIncidents.forEach(incident => {
           incidentsStatus.solved++;
           incidentsStatus.totalReceived += incident.received_value;
         });
@@ -127,7 +152,6 @@ module.exports = {
 
     };
 
-    console.table(incidentsStatus);
     return response.json(incidentsStatus);
 
   }

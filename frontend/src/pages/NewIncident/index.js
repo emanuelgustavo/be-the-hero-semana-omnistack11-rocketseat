@@ -10,11 +10,12 @@ export default function NewIncident() {
 
   const history = useHistory();
   
-  const ongId = localStorage.getItem('ongID');
+  const ongId = localStorage.getItem('id');
   
   const [incidentTitle, setIncidentTitle] = useState('');
   const [incidentDescription, setIncidentDescription] = useState('');
   const [incidentCost, setIncidentCost] = useState('');
+  const [incidentDeadline, setIncidentDeadline] = useState('');
 
   async function handleNewIncident(event) {
     event.preventDefault();
@@ -22,7 +23,10 @@ export default function NewIncident() {
     const data = {
       title: incidentTitle,
       description: incidentDescription,
-      value: incidentCost
+      value: incidentCost,
+      create_at: Date.now(),
+      deadline: Date.now()+((parseInt(incidentDeadline)+1)*24*60*60*1000),
+      status: 'Aberto'
     };
 
     try{
@@ -32,7 +36,7 @@ export default function NewIncident() {
         }
       });
 
-      history.push('/search');      
+      history.push('/dashboard/ong');      
     } catch (error) {
       alert(`Erro! Tente novamente. 
             ${error}`);
@@ -66,11 +70,18 @@ export default function NewIncident() {
             value={incidentDescription}
             onChange={event => setIncidentDescription(event.target.value)}
           />
-          <input
-            placeholder="Valor em R$"
-            value={incidentCost}
-            onChange={event => setIncidentCost(event.target.value)}
-          />
+          <div className="incident-deadline-value">
+            <input
+              placeholder="Valor em R$"
+              value={incidentCost}
+              onChange={event => setIncidentCost(event.target.value)}
+            />          
+            <input
+              placeholder="Prazo em dias"
+              value={incidentDeadline}
+              onChange={event => setIncidentDeadline(event.target.value)}
+            />
+          </div> 
           <button type="submit" className="button">
             Cadastrar
           </button>

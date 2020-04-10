@@ -34,3 +34,13 @@
     color: #737380;
     line-height: 32px;
 }
+
+.incident-deadline-value {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.incident-deadline-value input {
+    width: 49%;
+}

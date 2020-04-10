@@ -42,7 +42,7 @@ export default function Search() {
       <div className="Profile-container">
         <header>
           <img src={logoimg} alt="Be the Hero" />
-          <span>Bem vinda, {volunteerName}</span>
+          <span>Bem vindx, {volunteerName}</span>
           <button type="button" onClick={handleBackButton}>
             <FiArrowLeft size={18} color="#E02041" />
           </button>

@@ -39,14 +39,12 @@ export default function Dashboard() {
     }).then(response => {
       setDashboardStatus(response.data);
     });
-   }, [incidents]);
+   }, []);
 
   function handleLogout(){
     localStorage.clear();
     history.push('/');
   };
-
-  console.log(dashboardStatus);
 
   async function handleDeleteIncident(incidentId) {
 
@@ -56,8 +54,6 @@ export default function Dashboard() {
       }
     });
 
-    console.log(response);
-
     setIncidents(incidents.filter(incident => incident.id !== incidentId));
 
   }
@@ -66,7 +62,7 @@ export default function Dashboard() {
     <div className="dashboard-container">
       <header>
         <img src={logoImg} />
-        <span>Bem vindo, {dashboardName}</span>
+        <span>Bem vindx, {dashboardName}</span>
         <Link
           className="dashboard-button"
           to={
@@ -122,7 +118,7 @@ export default function Dashboard() {
                 
                   </div>
                 }
-                {dashboardType === 'ong' && incident.status !== "Resolvido" &&
+                {dashboardType === 'ong' && incident.status === "Aberto" &&
                   <div>
                     <strong>EXPIRA EM:</strong>
                     <p>{handleDeadline(incident.deadline)}</p>
@@ -142,7 +138,7 @@ export default function Dashboard() {
                   }).format(incident.value)}
                 </p>
               </div>
-              {dashboardType === 'ong' && incident.status !== "Resolvido" &&
+              {dashboardType === 'ong' && incident.status === "Aberto" &&
                 <button 
                   className="delete-incident"
                   onClick={ () => handleDeleteIncident(incident.id)}

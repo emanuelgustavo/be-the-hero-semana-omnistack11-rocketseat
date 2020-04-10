@@ -110,10 +110,16 @@ Depois de uma semana intensa, tenho muito a agradecer a equipe da [Rocketseat](h
 Um salve de Santa Catarina e até a próxima!
 
 
+# Pós Semana Omnistack
 
+Após o término da semana Omnistack e da conclusão do projeto, resolvi implementar alguma features para continuar evoluindo o que aprendi no curso. 
 
+## Novas features:
 
+- Inclusão do cadastro de voluntários
+- Criação de dashboard do voluntário e da ong
+- Incidents com status e prazo para arrecadação
 
-
+Todas essas alterações mecheram profundamente no código gerado durante a semana Omnistack.
 
 
