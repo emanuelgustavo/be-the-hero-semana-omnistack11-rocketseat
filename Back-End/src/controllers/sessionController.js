@@ -3,6 +3,7 @@ const connection = require('../database/connection.js');
 module.exports = {
 
   async create(request, response) {
+
     const { id, type } = request.body;
     const database = type === 'ong' ? 'ongs' : 'volunteer'; 
 
@@ -18,8 +19,10 @@ module.exports = {
         .status(400)
         .json({ error: 'ID not found.' });
     } else {
+      console.log(register);
       return response.json( register );
     }
+
   }
 
 };

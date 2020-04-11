@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 
 import LogoImg from '../../assets/logo.png';
@@ -10,17 +10,19 @@ import api from '../../services/api.js';
 
 export default function Incidents() {
 
+  const route = useRoute();
+  const navigation = useNavigation();
+
   const [incidents, setIncidents] = useState([]); //dados dos casos cadastrados
   const [total, setTotal] = useState(0); //total de casos cadastrados
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  const navigation = useNavigation();
+  const volunteerName = route.params.name;
 
   function navigateToDetail(incident) {
     navigation.navigate('Detail', { incident });
   }
-
   
   async function loadIncidents() {
 
@@ -42,12 +44,11 @@ export default function Incidents() {
       setTotal(response.headers['x-total-count']);
       setPage(page + 1);
       setLoading(false);
+      
     } catch (error) {
       
     }
   }
-  
-  
 
   useEffect(() => { 
     loadIncidents();
@@ -61,7 +62,7 @@ export default function Incidents() {
           Total de <Text style={styles.headerTextBold}>{total} casos</Text>
         </Text>
       </View>
-      <Text style={styles.title}>Bem vindo!</Text>
+      <Text style={styles.title}>Bem vindo, {volunteerName}</Text>
       <Text style={styles.description}>
         Escolha um caso para ajudar e salve o dia!
       </Text>
