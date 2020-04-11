@@ -33,7 +33,7 @@ export default function Logon() {
       });
       
       if (response.status === 200) {
-        navigation.navigate('Incidents', { id, name: response.data.name });
+        navigation.navigate('Dashboard', { id, name: response.data.name });
       }
     } catch (error) {      
       setErrorText('Erro no Login: ', error);

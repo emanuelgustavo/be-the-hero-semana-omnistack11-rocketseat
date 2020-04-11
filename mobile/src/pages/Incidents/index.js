@@ -36,7 +36,7 @@ export default function Incidents() {
     setLoading(true);
 
     try {
-      const response = await api.get('incidents', {
+      const response = await api.get('/dashboard/incidents', {
         params: { page }
       });
 

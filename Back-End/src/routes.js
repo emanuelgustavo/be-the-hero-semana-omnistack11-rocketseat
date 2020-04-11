@@ -42,14 +42,15 @@ routes.post('/volunteer',
     city: Joi.string().required(),
     uf: Joi.string().required().length(2),
   })
-}),volunteerController.create);
+}), volunteerController.create);
 
 //rota para o controller que lista as incidents
 routes.get('/incidents', celebrate({
   [Segments.QUERY]: Joi.object().keys({
     page: Joi.number(),
   })
-}),incidentController.index);
+}), incidentController.index);
+
 //rota para o controller que cadastra uma incident
 routes.post('/incidents', celebrate({
     [Segments.HEADERS]: Joi.object({
@@ -71,7 +72,7 @@ routes.delete('/incidents/:id', celebrate({
   [Segments.PARAMS]: Joi.object().keys({
     id: Joi.number().required(),
   })
-}),incidentController.delete);
+}), incidentController.delete);
 
 //rota para listagem de todos os casos cadastrados pelas ongs
 routes.get('/search', searchController.index);
@@ -87,6 +88,9 @@ routes.get('/dashboard/incidents', dashboardController.index);
 
 //rota para o preenchimento do gráfico da dashboard
 routes.get('/dashboard/status', dashboardController.getStatus);
+
+//rota para o preenchimento do gráfico da dashboard
+routes.get('/dashboard/mobile', dashboardController.indexMobile);
 
 //rota para atualizar o status quando o deadline foi expirado
 routes.post('/incidents/expired', incidentController.handleDeadline);
