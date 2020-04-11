@@ -33,7 +33,16 @@ routes.post('/ongs',
 //rota para o controller que lista os voluntarios
 routes.get('/volunteer', volunteerController.index);
 //rota para o controller que cadastra um voluntario
-routes.post('/volunteer', volunteerController.create);
+routes.post('/volunteer',
+  celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    name: Joi.string().required(),
+    email: Joi.string().email().required(),
+    whatsapp: Joi.string().required().min(10).max(11),
+    city: Joi.string().required(),
+    uf: Joi.string().required().length(2),
+  })
+}),volunteerController.create);
 
 //rota para o controller que lista as incidents
 routes.get('/incidents', celebrate({
