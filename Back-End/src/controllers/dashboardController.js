@@ -78,6 +78,7 @@ module.exports = {
     }
   },
 
+  //Retorna os incidents para o dashboard mobile do voluntário
   async indexMobile(request, response) {
 
     const { id } = request.headers;
@@ -112,6 +113,7 @@ module.exports = {
     return response.json(volunteerIncidents);
   },
 
+  //Retorna o status de todos os incidents para o gráfico da dashboard
   async getStatus(request, response) {
     
     //recebe as informações passadas na requisição

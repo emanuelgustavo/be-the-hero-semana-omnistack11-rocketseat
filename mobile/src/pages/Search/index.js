@@ -7,8 +7,9 @@ import LogoImg from '../../assets/logo.png';
 import styles from './styles.js';
 
 import api from '../../services/api.js';
+import formatDeadline from '../../utils/formatDeadline.js';
 
-export default function Incidents() {
+export default function Search() {
 
   const route = useRoute();
   const navigation = useNavigation();
@@ -19,9 +20,10 @@ export default function Incidents() {
   const [loading, setLoading] = useState(false);
 
   const volunteerName = route.params.name;
+  const { id } = route.params;
 
-  function navigateToDetail(incident) {
-    navigation.navigate('Detail', { incident });
+  function goToDetail(incident) {
+    navigation.navigate('WantHelp', { incident, id });
   }
   
   async function loadIncidents() {
@@ -36,11 +38,9 @@ export default function Incidents() {
     setLoading(true);
 
     try {
-      const response = await api.get('/dashboard/incidents', {
-        params: { page }
-      });
+      const response = await api.get('/search');
 
-      setIncidents([...incidents, ...response.data]);
+      setIncidents(response.data);
       setTotal(response.headers['x-total-count']);
       setPage(page + 1);
       setLoading(false);
@@ -52,7 +52,11 @@ export default function Incidents() {
 
   useEffect(() => { 
     loadIncidents();
-   }, []);
+  }, []);
+  
+  function navigateBack() {
+    navigation.goBack();
+  }
 
   return (
     <View style={styles.container}>
@@ -61,8 +65,11 @@ export default function Incidents() {
         <Text style={styles.headerText}>
           Total de <Text style={styles.headerTextBold}>{total} casos</Text>
         </Text>
+        <TouchableOpacity onPress={navigateBack}>
+          <Feather name="arrow-left" size={28} color="#E02041" />
+        </TouchableOpacity>
       </View>
-      <Text style={styles.title}>Bem vindo, {volunteerName}</Text>
+      <Text style={styles.title}>Bem vindo, { volunteerName }</Text>
       <Text style={styles.description}>
         Escolha um caso para ajudar e salve o dia!
       </Text>
@@ -76,23 +83,33 @@ export default function Incidents() {
         onEndReachedThreshold={0.2}
         renderItem={({ item: incident }) => (
           <View style={styles.incident}>
-            <Text style={styles.incidentProperty}>ONG</Text>
+            <Text style={styles.incidentProperty}>ONG:</Text>
             <Text style={styles.incidentValue}>{incident.name}</Text>
 
             <Text style={styles.incidentProperty}>CASO:</Text>
             <Text style={styles.incidentValue}>{incident.title}</Text>
 
-            <Text style={styles.incidentProperty}>VALOR:</Text>
-            <Text style={styles.incidentValue}>
-              {Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL"
-              }).format(incident.value)}
-            </Text>
+            <View style={styles.valueDeadline}>
+              <View>
+                <Text style={styles.incidentProperty}>VALOR:</Text>
+                <Text style={styles.incidentValue}>
+                {Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL"
+                }).format(incident.value)}
+                </Text>
+              </View>
+              <View>
+                <Text style={styles.incidentProperty}>PRAZO:</Text>
+                <Text style={styles.incidentValue}>
+                  {formatDeadline(incident.deadline)}
+                </Text>
+              </View>
+            </View>
 
             <TouchableOpacity
               style={styles.detailsButton}
-              onPress={() => navigateToDetail(incident)}
+              onPress={() => goToDetail(incident)}
             >
               <Text style={styles.detailsButtonText}>Ver mais detalhes</Text>
               <Feather name="arrow-right" size={16} color="#E02041" />

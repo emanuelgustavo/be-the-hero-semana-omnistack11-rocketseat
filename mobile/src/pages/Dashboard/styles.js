@@ -70,6 +70,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
+  emptyList: {
+    width: "80%",
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: 32
+  },
+
   list: {
     width: "90%",
     marginBottom: 30,

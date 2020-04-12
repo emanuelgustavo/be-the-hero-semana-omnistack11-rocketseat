@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     paddingHorizontal: 24,
@@ -35,6 +36,11 @@ export default StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: "#737380"
+  },
+
+  valueDeadline: {
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
 
   incidentList: {
@@ -74,3 +80,5 @@ export default StyleSheet.create({
   }
 
 });
+
+export default styles;
