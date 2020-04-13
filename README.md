@@ -120,6 +120,4 @@ Após o término da semana Omnistack e da conclusão do projeto, resolvi impleme
 - Criação de dashboard do voluntário e da ong
 - Incidents com status e prazo para arrecadação
 
-Todas essas alterações mecheram profundamente no código gerado durante a semana Omnistack.
-
 
